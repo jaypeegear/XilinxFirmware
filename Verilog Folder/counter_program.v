@@ -29,7 +29,7 @@ module counter_program(
 	output khz_clk,
 	output hz_clk
 	);
-
+//declarations
 reg [15:0] count = 16'b000000000000000;
 reg [15:0] tempc = 16'b000000000000000;
 reg [15:0] count2 = 16'b000000000000000;
@@ -51,7 +51,7 @@ div divider (
 
 
 always @ (posedge sig)
-begin
+begin // count or reset
 	if (count != 16'b0000000000111111 )
 	begin
 		temple = sample + 1;
@@ -93,7 +93,7 @@ begin
 end
 
 always @ (posedge clk)
-begin
+begin//count, check if count is complete and engage dividers
 	if (count !=  16'b0000000000111111 && sample != 16'b0000000000111111 && sample!=16'b0000000000000000 && khz_clk != 1'b1 && hz_clk != 1'b1)
 	begin
 		tempc = count + 1;
@@ -133,7 +133,7 @@ begin
 			end 
 		end
 	end
-	
+	//engage hz clk
 	if (khz_clk != 1'b1 && hz_clk == 1'b1)
 		begin
 			if (count2 != 16'b0000001111101000)
@@ -180,7 +180,7 @@ begin
 			tempc = tempc;
 			count = count;
 		end
-		
+	// engage khz clk
 	if (khz_clk == 1'b1 && hz_clk != 1'b1)
 	begin
 		if (count2 != 16'b0000001111101000)
